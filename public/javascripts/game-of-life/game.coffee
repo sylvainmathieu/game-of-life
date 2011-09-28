@@ -11,8 +11,7 @@ drawBlock = (pos) ->
 	ctx.fillRect pos.x * 10 + 1.5, pos.y * 10 + 1.5, 7, 7
 
 eraseBlock = (pos) ->
-	ctx.fillStyle = "#27005b"  
-	ctx.fillRect pos.x * 10 + 1, pos.y * 10 + 1, 9, 9
+	ctx.clearRect pos.x * 10 + 1, pos.y * 10 + 1, 9, 9
 
 countNeighbours = (pos) ->
 	zone =
@@ -53,14 +52,12 @@ tick = ->
 	map = clone nextMap
 	
 start = ->
-	intervalId = setInterval tick, 1
+	intervalId = setInterval tick, 100
 
 graphInit = ->
 	canvas = document.getElementById "game"
 	canvas.width = canvas.width
 	ctx = canvas.getContext "2d"
-	ctx.fillStyle = "#27005b"
-	ctx.fillRect 0, 0, gridSize * 10, gridSize * 10
 
 	for y in [1..(gridSize - 1)]
 		for x in [1..(gridSize - 1)]
