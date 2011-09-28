@@ -29,7 +29,7 @@ body
 		border: 3px solid rgba(255,255,255,0.5)
 
 .gameWrapper
-	width: 800px
+	width: 1000px
 	margin: auto
 
 	header
@@ -39,35 +39,10 @@ body
 			text-shadow: 2px 2px 1px #000000
 			font-weight: normal
 
-	aside.left
-		position: relative
-		float: left
-		width: 400px
-		.gameOver
-			width: 406px
-			height: 406px
-			display: none
-			position: absolute
-			background: rgba(0,0,0,0.5)
-			.inner
-				padding-top: 160px
-				text-align: center
-				color: rgba(255,255,255,0.5)
-				.finalScore
-					font-family: 'Gruppo', sans-serif
-					color: white
-					font-size: 2em
-
-			.restart
-				padding: 10px
-				a
-					@include playButton
-
-	aside.right
-		width: 380px
-		float: right
-
+	.panel
 		.score
+			width: 200px
+			float: left
 			margin: 0 10px 30px 0
 			padding: 10px 20px
 			background: black
@@ -77,10 +52,18 @@ body
 			font-size: 2em
 			border: 3px solid lighten($background, 15%)
 
-		.start
-			display: inline
-			a
-				@include playButton
+		.control
+			padding-top: 18px
+			padding-left: 20px
+			.start
+				a
+					@include playButton
+
+			.stop
+				display: none
+				a
+					@include playButton
+					background-color: #802100
 
 	.credits
 		text-align: center

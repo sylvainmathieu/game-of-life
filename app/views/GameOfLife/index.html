@@ -14,23 +14,18 @@
 		<h1>Game of Life</h1>
 	</header>
 
-	<aside class="left">
-		<div class="gameOver">
-			<div class="inner">
-				Game over, your score is <span class="finalScore"></span>
-			</div>
-		</div>
-		<canvas id="game" width="400" height="400"></canvas>
-	</aside>
-
-	<aside class="right">
+	<aside class="panel">
 		<div class="score">0</div>
-
-		<div class="start">
-			<a href="javascript:;"><span><span>Start!</a>
+		<div class="control">
+			<span class="start">
+				<a href="javascript:;">Start!</a>
+			</span>
+			<span class="stop">
+				<a href="javascript:;">Stop!</a>
+			</span>
 		</div>
-
 	</aside>
+	<canvas id="game" width="1000" height="1000"></canvas>
 
 	<div class="credits">
 		This game was made to try CoffeeScript. Have a look at the <a href="https://github.com/sylvainmathieu/Snakes/blob/c7acfdfb05f4b8e7425a8180b25282e1752b8b32/public/javascripts/game.coffee">source code</a>.
