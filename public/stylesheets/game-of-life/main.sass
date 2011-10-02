@@ -22,9 +22,10 @@ body
 	height: 20px
 	color: white
 	background-color: #216400
-	padding: 5px 20px
+	padding: 1px 10px
 	text-decoration: none
 	border: 3px solid rgba(0,0,0,0)
+	font-size: 0.9em
 
 	&:hover
 		border: 3px solid rgba(255,255,255,0.5)
@@ -32,8 +33,24 @@ body
 .gameWrapper
 	width: 1000px
 	margin: auto
+	position: relative
+	.rules
+		line-height: 1.1em
+		width: 550px
+		position: absolute
+		right: 0
+		top: -25px
+		font-size: 0.8em
+		color: rgba(255,255,255, 0.5)
+		a
+			color: white
+			&:hover
+				text-decoration: none
+		ul
+			margin-top: 5px
+			padding-left: 30px
 
-	header
+	.header
 		h1
 			font-size: 2.5em
 			color: rgba(255,255,255,0.8)

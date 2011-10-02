@@ -12,12 +12,12 @@
 <link href='http://fonts.googleapis.com/css?family=Gruppo' rel='stylesheet' type='text/css'>
 #{/set}
 
-<section class="gameWrapper">
-	<header>
+<div class="gameWrapper">
+	<div class="header">
 		<h1>Game of Life</h1>
-	</header>
+	</div>
 
-	<aside class="panel">
+	<div class="panel">
 		<div class="score">
 			<span>0</span>
 			<a href="javascript:;" class="fastforward"></a>
@@ -36,10 +36,26 @@
 				<a href="javascript:;">Reset</a>
 			</span>
 		</div>
-	</aside>
+	</div>
+
+	<div class="rules">
+		<p>
+			To learn about Conway's game of life, please visit <a href="http://en.wikipedia.org/wiki/Conway's_Game_of_Life">the wikipedia page</a>.
+		</p>
+		These are the rules applied for each cell at each generation:
+		<ul>
+			<li>Any live cell with fewer than two live neighbours dies, as if caused by under-population.</li>
+			<li>Any live cell with two or three live neighbours lives on to the next generation.</li>
+			<li>Any live cell with more than three live neighbours dies, as if by overcrowding.</li>
+		 	<li>Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.</li>
+		</ul>
+		<p>
+			To play, just draw the initial grid and press "Start". To go back on your previous grids, use your browser history. To share your grids, just copy the URL.
+		</p>
+	</div>
 	<canvas id="game" width="1000" height="1000"></canvas>
 
 	<div class="credits">
 		This game was made to try CoffeeScript. Have a look at the <a href="https://github.com/sylvainmathieu/game-of-life/blob/master/public/javascripts/game-of-life/game.coffee">source code</a>.
 	</div>
-</section>
+</div>
