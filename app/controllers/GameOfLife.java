@@ -20,12 +20,7 @@ public class GameOfLife extends Controller {
 		renderJSON(grid);
 	}
 
-	public static void grids(String sessionUnique) {
-		List<Grid> grids = Grid.find("sessionUnique = ?", sessionUnique).fetch();
-		renderJSON(grids);
-	}
-
-	public static void grid(Long id) {
+	public static void getGrid(Long id) {
 		Grid grid = Grid.findById(id);
 		renderJSON(grid);
 	}

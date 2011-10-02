@@ -1,14 +1,18 @@
-#{extends 'GameOfLife/main.html' /}
+#{extends 'main.html' /}
 #{set title:'Home' /}
 
 #{set 'moreScripts'}
+<script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
 <script type="text/javascript">
 	window.sessionUnique = "${session.sessionUnique}";
+	window.saveGrid = #{jsAction @GameOfLife.saveGrid() /};
+	window.getGrid = #{jsAction @GameOfLife.getGrid(':id') /};
 </script>
 <script src="@{'/public/javascripts/game-of-life/game.coffee'}" type="text/javascript" charset="${_response_encoding}"></script>
 #{/set}
 
 #{set 'moreStyles'}
+<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/game-of-life/main.sass'}">
 <link href='http://fonts.googleapis.com/css?family=Gruppo' rel='stylesheet' type='text/css'>
 #{/set}
 
@@ -56,6 +60,6 @@
 	<canvas id="game" width="1000" height="1000"></canvas>
 
 	<div class="credits">
-		This game was made to try CoffeeScript. Have a look at the <a href="https://github.com/sylvainmathieu/game-of-life/blob/master/public/javascripts/game-of-life/game.coffee">source code</a>.
+		This game was made to try CoffeeScript and Canvas. Have a look at the <a href="https://github.com/sylvainmathieu/game-of-life/blob/master/public/javascripts/game-of-life/game.coffee">source code</a>.
 	</div>
 </div>

@@ -79,7 +79,7 @@ unpackGrid = (grid) ->
 			y++
 
 loadGrid = ->
-	$.getJSON "/grid/" + window.location.hash.substr(1), (grid) ->
+	$.getJSON window.saveGrid({id:  window.location.hash.substr(1)}), (grid) ->
 		unpackGrid grid.grid
 		drawGrid()
 
@@ -88,7 +88,7 @@ start = ->
 
 	$.ajax
 		type: "post"
-		url: "/grid"
+		url: window.saveGrid()
 		data:
 			"grid.session": window.sessionUnique
 			"grid.grid": compact()
