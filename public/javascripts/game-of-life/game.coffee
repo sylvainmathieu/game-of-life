@@ -7,6 +7,18 @@ speed = 100
 
 emptyMap = (0 for y in [0..(gridSize - 1)] for x in [0..(gridSize - 1)])
 
+forEachCell = (cellFunc, rowFunc) ->
+	for y in [0..(gridSize - 1)]
+		for x in [0..(gridSize - 1)]
+			cellFunc x, y
+		rowFunc y if rowFunc != undefined
+
+clone = (array2d) ->
+	clone = []
+	for row in array2d
+		clone.push row.slice 0
+	clone
+
 drawBlock = (pos) ->
 	ctx.strokeStyle = "rgba(255,255,255, 0.5)"
 	ctx.strokeRect pos.x * 10 + 1.5, pos.y * 10 + 1.5, 7, 7
@@ -18,10 +30,9 @@ eraseBlock = (pos) ->
 
 drawGrid = (pos) ->
 	canvas.width = canvas.width
-	for y in [0..(gridSize - 1)]
-		for x in [0..(gridSize - 1)]
-			if map[x][y] == 1
-				drawBlock {x: x, y: y}
+	forEachCell (x, y) ->
+		if map[x][y] == 1
+			drawBlock {x: x, y: y}
 
 countNeighbours = (pos) ->
 	zone =
@@ -45,27 +56,16 @@ applyRules = (pos) ->
 	else if map[pos.x][pos.y] == 1 && numberNeighbours < 2 || numberNeighbours > 3
 		nextMap[pos.x][pos.y] = 0
 
-clone = (array2d) ->
-	clone = []
-	for row in array2d
-		clone.push row.slice 0
-	clone
-
 tick = ->
 	$(".score span").text ++cycle
 	nextMap = clone map
-	for y in [0..(gridSize - 1)]
-		for x in [0..(gridSize - 1)]
-			applyRules {x: x, y: y}
+	forEachCell (x, y) -> applyRules {x: x, y: y}
 	map = clone nextMap
 	drawGrid()
 
 compact = ->
 	compactMap = ""
-	for y in [0..(gridSize - 1)]
-		for x in [0..(gridSize - 1)]
-			compactMap += map[x][y]
-		compactMap += "\n"
+	forEachCell ((x, y) -> compactMap += map[x][y]), (y) -> compactMap += "\n"
 	compactMap
 
 unpackGrid = (grid) ->
@@ -79,9 +79,15 @@ unpackGrid = (grid) ->
 			y++
 
 loadGrid = ->
-	$.getJSON window.saveGrid({id:  window.location.hash.substr(1)}), (grid) ->
-		unpackGrid grid.grid
-		drawGrid()
+	if window.location.hash != "" && window.location.hash != "#"
+		id = window.location.hash.substr(1)
+		$.ajax
+			type: "get"
+			url: window.getGrid
+				id: id
+			success: (grid) ->
+				unpackGrid grid.grid
+				drawGrid()
 
 start = ->
 	started = true
