@@ -97,6 +97,8 @@ start = ->
 			history.push(data)
 			window.location.hash = "#" + data.id
 
+	speed = 100
+	$(".fastforward").removeClass("on")
 	intervalId = setInterval(tick, speed)
 
 stop = ->
