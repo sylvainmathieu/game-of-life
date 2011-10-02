@@ -24,6 +24,7 @@ body
 	background-color: #216400
 	padding: 5px 20px
 	text-decoration: none
+	border: 3px solid rgba(0,0,0,0)
 
 	&:hover
 		border: 3px solid rgba(255,255,255,0.5)
@@ -41,7 +42,7 @@ body
 
 	.panel
 		.score
-			width: 200px
+			width: 150px
 			float: left
 			margin: 0 10px 30px 0
 			padding: 0 20px
@@ -66,6 +67,16 @@ body
 					@include playButton
 					background-color: #802100
 
+			.reload
+				a
+					@include playButton
+					background-color: #369
+
+			.reset
+				a
+					@include playButton
+					background-color: #666
+
 	.credits
 		text-align: center
 		font-size: 0.8em
@@ -79,3 +90,4 @@ body
 
 #game
 	border: 3px solid lighten($background, 15%)
+	background: transparent url(/public/images/grid.png) repeat top left

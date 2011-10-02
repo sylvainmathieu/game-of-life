@@ -2,6 +2,9 @@
 #{set title:'Home' /}
 
 #{set 'moreScripts'}
+<script type="text/javascript">
+	window.sessionUnique = "${session.sessionUnique}";
+</script>
 <script src="@{'/public/javascripts/game-of-life/game.coffee'}" type="text/javascript" charset="${_response_encoding}"></script>
 #{/set}
 
@@ -22,6 +25,12 @@
 			</span>
 			<span class="stop">
 				<a href="javascript:;">Stop!</a>
+			</span>
+			<span class="reload">
+				<a href="javascript:;">Reload</a>
+			</span>
+			<span class="reset">
+				<a href="javascript:;">Reset</a>
 			</span>
 		</div>
 	</aside>

@@ -1,6 +1,8 @@
 
-intervalId = ctx = map = nextMap = cycle = zone = null
+intervalId = canvas = ctx = map = nextMap = cycle = zone = null
+started = false
 gridSize = 100
+history = []
 
 emptyMap = (0 for y in [0..(gridSize - 1)] for x in [0..(gridSize - 1)])
 
@@ -11,7 +13,14 @@ drawBlock = (pos) ->
 	ctx.fillRect pos.x * 10 + 1.5, pos.y * 10 + 1.5, 7, 7
 
 eraseBlock = (pos) ->
-	ctx.clearRect pos.x * 10 + 1, pos.y * 10 + 1, 9, 9
+	ctx.clearRect pos.x * 10 + 0.5, pos.y * 10 + 0.5, 9, 9
+
+drawGrid = (pos) ->
+	canvas.width = canvas.width
+	for y in [0..(gridSize - 1)]
+		for x in [0..(gridSize - 1)]
+			if map[x][y] == 1
+				drawBlock {x: x, y: y}
 
 countNeighbours = (pos) ->
 	zone =
@@ -32,10 +41,8 @@ applyRules = (pos) ->
 	numberNeighbours = countNeighbours pos
 	if map[pos.x][pos.y] == 0 && numberNeighbours == 3
 		nextMap[pos.x][pos.y] = 1
-		drawBlock {x: pos.x, y: pos.y}
 	else if map[pos.x][pos.y] == 1 && numberNeighbours < 2 || numberNeighbours > 3
 		nextMap[pos.x][pos.y] = 0
-		eraseBlock {x: pos.x, y: pos.y}
 
 clone = (array2d) ->
 	clone = []
@@ -50,31 +57,76 @@ tick = ->
 		for x in [0..(gridSize - 1)]
 			applyRules {x: x, y: y}
 	map = clone nextMap
-	
+	drawGrid()
+
+compact = ->
+	compactMap = ""
+	for y in [0..(gridSize - 1)]
+		for x in [0..(gridSize - 1)]
+			compactMap += map[x][y]
+		compactMap += "\n"
+	compactMap
+
+unpackGrid = (grid) ->
+	x = 0
+	y = 0
+	for char in grid
+		if char != '\n'
+			map[x++][y] = parseInt char, 10
+		else
+			x = 0
+			y++
+
+loadGrid = ->
+	$.getJSON "/grid/" + window.location.hash.substr(1), (grid) ->
+		unpackGrid grid.grid
+		drawGrid()
+
 start = ->
-	intervalId = setInterval tick, 100
+	started = true
 
-graphInit = ->
-	canvas = document.getElementById "game"
+	$.ajax
+		type: "post"
+		url: "/grid"
+		data:
+			"grid.session": window.sessionUnique
+			"grid.grid": compact()
+		dataType: "json"
+		success: (data) ->
+			history.push(data)
+			window.location.hash = "#" + data.id
+
+	intervalId = setInterval(tick, 100)
+
+stop = ->
+	clearInterval(intervalId) if started
+	started = false
+
+reset = ->
+	stop()
+	map = clone emptyMap
 	canvas.width = canvas.width
-	ctx = canvas.getContext "2d"
-
-	for y in [1..(gridSize - 1)]
-		for x in [1..(gridSize - 1)]
-			ctx.moveTo(0.5 + x * 10, 0);
-			ctx.lineTo(0.5 + x * 10, gridSize * 10);
-			ctx.moveTo(0, 0.5 + y * 10);
-			ctx.lineTo(gridSize * 10, 0.5 + y * 10);
-
-	ctx.strokeStyle = "#000";
-	ctx.stroke();
+	cycle = 0
+	$(".score").text(0)
+	started = false
+	$(".stop").hide()
+	$(".start").show()
 
 $ ->
 	map = clone emptyMap
-	graphInit()
+	canvas = document.getElementById "game"
+	ctx = canvas.getContext "2d"
 
 	action = null
-	started = false
+
+	if window.location.hash != "" && window.location.hash != "#"
+		loadGrid()
+
+	window.onhashchange = ->
+		if window.location.hash == "" || window.location.hash == "#"
+			reset()
+		else
+			loadGrid()
 
 	getPos = (element, event) ->
 		pos =
@@ -107,10 +159,21 @@ $ ->
 		start()
 		$(this).hide()
 		$(".stop").show()
-		started = true
 
 	$(".stop").click ->
-		clearInterval(intervalId)
+		stop()
 		$(this).hide()
 		$(".start").show()
-		started = false
+
+	$(".reset").click ->
+		if window.location.hash != "" && window.location.hash != "#"
+			reset()
+		window.location.hash = "#"
+
+	$(".reload").click ->
+		stop()
+		if window.location.hash != "" && window.location.hash != "#"
+			reset()
+			loadGrid()
+
+

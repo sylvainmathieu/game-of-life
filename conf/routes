@@ -1,3 +1,7 @@
 GET     /?                                      GameOfLife.index
+
+POST	/grid									GameOfLife.saveGrid
+GET		/grid/{id}								GameOfLife.grid
+
 GET     /public/                                staticDir:public
 
