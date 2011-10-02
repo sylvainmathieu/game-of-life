@@ -2,7 +2,6 @@
 intervalId = canvas = ctx = map = nextMap = cycle = zone = null
 started = false
 gridSize = 100
-history = []
 speed = 100
 
 emptyMap = (0 for y in [0..(gridSize - 1)] for x in [0..(gridSize - 1)])
@@ -99,9 +98,8 @@ start = ->
 			"grid.session": window.sessionUnique
 			"grid.grid": compact()
 		dataType: "json"
-		success: (data) ->
-			history.push(data)
-			window.location.hash = "#" + data.id
+		success: (grid) ->
+			window.location.hash = "#" + grid.id
 
 	speed = 100
 	$(".fastforward").removeClass("on")
