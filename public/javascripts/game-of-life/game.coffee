@@ -132,16 +132,17 @@ $ ->
 
 	getPos = (element, event) ->
 		pos =
-			x: Math.floor((event.pageX - element.offset().left) / 10)
-			y: Math.floor((event.pageY - element.offset().top) / 10)
+			x: Math.round((event.pageX - element.offset().left) / 10) - 1
+			y: Math.round((event.pageY - element.offset().top) / 10) - 1
 
 	drawLife = (pos) ->
-		if action == 1 && map[pos.x][pos.y] == 0
-			drawBlock(pos)
-			map[pos.x][pos.y] = 1
-		else if action == 0 && map[pos.x][pos.y] == 1
-			eraseBlock(pos)
-			map[pos.x][pos.y] = 0
+		if map[pos.x] != undefined && map[pos.x][pos.y] != undefined
+			if action == 1 && map[pos.x][pos.y] == 0
+				drawBlock(pos)
+				map[pos.x][pos.y] = 1
+			else if action == 0 && map[pos.x][pos.y] == 1
+				eraseBlock(pos)
+				map[pos.x][pos.y] = 0
 
 	$("#game").mousedown (event) ->
 		if !started
