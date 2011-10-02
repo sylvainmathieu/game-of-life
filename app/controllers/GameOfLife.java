@@ -17,7 +17,7 @@ public class GameOfLife extends Controller {
 
 	public static void saveGrid(Grid grid) {
 		grid.save();
-		renderJSON(grid);
+		renderText(grid.id);
 	}
 
 	public static void getGrid(Long id) {

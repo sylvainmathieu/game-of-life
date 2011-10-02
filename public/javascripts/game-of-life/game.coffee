@@ -89,21 +89,18 @@ loadGrid = ->
 				drawGrid()
 
 start = ->
-	started = true
-
 	$.ajax
 		type: "post"
 		url: window.saveGrid()
 		data:
 			"grid.session": window.sessionUnique
 			"grid.grid": compact()
-		dataType: "json"
-		success: (grid) ->
-			window.location.hash = "#" + grid.id
-
-	speed = 100
-	$(".fastforward").removeClass("on")
-	intervalId = setInterval(tick, speed)
+		success: (gridId) ->
+			window.location.hash = "#" + gridId
+			speed = 100
+			$(".fastforward").removeClass("on")
+			started = true
+			intervalId = setInterval(tick, speed)
 
 stop = ->
 	clearInterval(intervalId) if started
