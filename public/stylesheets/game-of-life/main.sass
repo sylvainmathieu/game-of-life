@@ -53,6 +53,17 @@ body
 			font-family: 'Gruppo', sans-serif
 			font-size: 2em
 			border: 3px solid lighten($background, 15%)
+			position: relative
+			a
+				position: absolute
+				right: 8px
+				top: 17px
+				display: block
+				width: 16px
+				height: 16px
+				background: transparent url(/public/images/control_fastforward.png) no-repeat left top
+				&.on
+					background-image: url(/public/images/control_play.png)
 
 		.control
 			padding-top: 18px

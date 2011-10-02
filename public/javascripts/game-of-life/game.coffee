@@ -3,6 +3,7 @@ intervalId = canvas = ctx = map = nextMap = cycle = zone = null
 started = false
 gridSize = 100
 history = []
+speed = 100
 
 emptyMap = (0 for y in [0..(gridSize - 1)] for x in [0..(gridSize - 1)])
 
@@ -51,7 +52,7 @@ clone = (array2d) ->
 	clone
 
 tick = ->
-	$(".score").text ++cycle
+	$(".score span").text ++cycle
 	nextMap = clone map
 	for y in [0..(gridSize - 1)]
 		for x in [0..(gridSize - 1)]
@@ -96,18 +97,19 @@ start = ->
 			history.push(data)
 			window.location.hash = "#" + data.id
 
-	intervalId = setInterval(tick, 100)
+	intervalId = setInterval(tick, speed)
 
 stop = ->
 	clearInterval(intervalId) if started
 	started = false
+	$(".fastforward").removeClass("on")
 
 reset = ->
 	stop()
 	map = clone emptyMap
 	canvas.width = canvas.width
 	cycle = 0
-	$(".score").text(0)
+	$(".score span").text(0)
 	started = false
 	$(".stop").hide()
 	$(".start").show()
@@ -175,5 +177,16 @@ $ ->
 		if window.location.hash != "" && window.location.hash != "#"
 			reset()
 			loadGrid()
+
+	$(".fastforward").click ->
+		if started
+			if speed == 100
+				speed = 10
+				$(".fastforward").addClass("on")
+			else
+				speed = 100
+				$(".fastforward").removeClass("on")
+			clearInterval(intervalId)
+			intervalId = setInterval(tick, speed)
 
 
